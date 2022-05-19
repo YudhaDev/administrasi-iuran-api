@@ -91,6 +91,17 @@ class MembersController extends Controller
                 $select = 'belum lunas';
                 break;
         }
-        return Members::where($this->TABLE_VAR_STATUS_IURAN, $index_status_iuran)->get();
+        // return $select.$index_status_iuran;
+        return Members::where($this->TABLE_VAR_STATUS_IURAN, $select)->get();
+    }
+
+    public function updateMemberData(Request $request, $id){
+        $member = Members::find($id);
+        $member->update($request->all());
+        return $member;
+    }
+
+    public function deleteMember($id){
+        return Members::destroy($id);
     }
 }
