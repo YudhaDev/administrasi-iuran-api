@@ -1,6 +1,7 @@
 <?php
 // use App\Models\Members;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,17 +30,19 @@ use Illuminate\Support\Facades\Route;
 
 //public routes
 Route::prefix('/member')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', function (){});
-    Route::post('/register', function (){});
     Route::post('logout', function(){});
 });
+Route::post('/add-member', [MembersController::class, 'addMember']);
+Route::get('/members', [MembersController::class, 'index']);
+
+
 
 
 //protected routes
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::delete('/delete-member/{id}', [MembersController::class, 'deleteMember']);
-    Route::get('/members', [MembersController::class, 'index']);
-    Route::post('/add-member', [MembersController::class, 'addMember']);
     Route::get('/find-member-id/{id}', [MembersController::class, 'findMemberById']);
     Route::get('/find-member-name/{name}', [MembersController::class, 'findMemberByName']);
     Route::get('/find-member-gender/{index_gender}', [MembersController::class, 'findMemberByJenisKelamin']);
