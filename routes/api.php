@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 //public routes
 Route::prefix('/member')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', function (){});
+    Route::post('/login', [AuthController::class, 'login']);
     Route::post('logout', function(){});
 });
 Route::post('/add-member', [MembersController::class, 'addMember']);

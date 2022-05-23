@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use illuminate\Support\Fascades\Hash;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,7 +17,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'no_induk' => $fields['no_induk'],
-            'password' => bcrypt($fields['password'])
+            'password' => Hash::make($fields['password'])
         ]);
         $token = $user->createToken('myapptoken')->plainTextToken;
 
@@ -35,12 +35,28 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
-        $login = User::where([
-            'no_induk' , $fields['no_induk']
-        ])->first();
+        $login = User::where(
+            'no_induk', '1111'
+        )->get()->first();
 
-        if (!$login && !Hash::check) {
-            # code...
+        // return $login->password .  '|\\|' . bcrypt($fields['password']);
+        return Hash::check($fields['password'],$login->password) ? '1' : '0';
+
+        if ($login) {
+            if (bcrypt($fields['password']) == $login->password) {
+                $token = $login->createToken('myapptoken')->plainTextToken;
+                return response(
+                    [
+                        'user' => $login,
+                        'token' => $token
+                    ]
+                    );
+            } else {
+                return response('user password salah', 401);
+            }
+
+        } else {
+            return response('user tidak ada'.$login, 401);
         }
     }
 
