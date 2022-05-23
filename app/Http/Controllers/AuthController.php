@@ -30,7 +30,18 @@ class AuthController extends Controller
     }
 
     public function login (Request $request){
+        $fields = $request->validate([
+            'no_induk' => 'required|string',
+            'password' => 'required|string'
+        ]);
 
+        $login = User::where([
+            'no_induk' , $fields['no_induk']
+        ])->first();
+
+        if (!$login && !Hash::check) {
+            # code...
+        }
     }
 
     public function logout(Request $request){
