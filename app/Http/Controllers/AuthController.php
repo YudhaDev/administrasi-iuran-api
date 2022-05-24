@@ -6,9 +6,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function test(Request $request){
+        $user = Auth::user();
+        return response([
+            'user' => $user
+        ]);
+    }
+
     public function register(Request $request){
         $fields = $request->validate([
             'no_induk' => 'required|string',
@@ -36,14 +44,11 @@ class AuthController extends Controller
         ]);
 
         $login = User::where(
-            'no_induk', '1111'
+            'no_induk', $fields['no_induk']
         )->get()->first();
 
-        // return $login->password .  '|\\|' . bcrypt($fields['password']);
-        return Hash::check($fields['password'],$login->password) ? '1' : '0';
-
         if ($login) {
-            if (bcrypt($fields['password']) == $login->password) {
+            if (Hash::check($fields['password'],$login->password)) {
                 $token = $login->createToken('myapptoken')->plainTextToken;
                 return response(
                     [
@@ -56,11 +61,14 @@ class AuthController extends Controller
             }
 
         } else {
-            return response('user tidak ada'.$login, 401);
+            return response('user tidak ada', 401);
         }
     }
 
     public function logout(Request $request){
-
+        $logout = Auth::user()->tokens()->delete();
+        return response([
+            'logout' => $logout
+        ]);
     }
 }

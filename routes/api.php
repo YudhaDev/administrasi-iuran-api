@@ -32,13 +32,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/member')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('logout', function(){});
+    Route::group(['middleware' => ['auth:sanctum']], function(){
+        Route::get('/test', [AuthController::class, 'test']);
+        Route::post('logout', [AuthController::class, 'logout']);
+    });
 });
 Route::post('/add-member', [MembersController::class, 'addMember']);
 Route::get('/members', [MembersController::class, 'index']);
-
-
-
 
 //protected routes
 Route::group(['middleware' => ['auth:sanctum']], function() {
