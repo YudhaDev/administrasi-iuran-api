@@ -30,14 +30,14 @@ use Illuminate\Support\Facades\Route;
 
 //public routes
 Route::prefix('/member')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register-new-user', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::group(['middleware' => ['auth:sanctum']], function(){
         Route::get('/test', [AuthController::class, 'test']);
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });
-Route::post('/add-member', [MembersController::class, 'addMember']);
+Route::post('/add-membership', [MembersController::class, 'addMembership']);
 Route::get('/members', [MembersController::class, 'index']);
 
 //protected routes

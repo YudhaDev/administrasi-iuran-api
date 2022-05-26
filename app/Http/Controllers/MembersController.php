@@ -16,9 +16,9 @@ class MembersController extends Controller
         return Members::all();
     }
 
-    public function addMember(Request $request){
+    public function addMembership(Request $request){
         $request->validate([
-            'nomor_induk' => 'required',
+            // 'nomor_induk' => 'required',
             'name' => 'required',
             'jenis_kelamin' => 'required'
         ]);

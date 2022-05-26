@@ -10,10 +10,19 @@ class Members extends Model
     use HasFactory;
     //protected $table = "members" < ini nama tabelnya, bisa ada bisa ngg
     protected $fillable = [
-        'nomor_induk',
+        'user_id',
         'name',
         'jenis_kelamin',
         'status_aktif',
         'status_iuran'
     ];
+
+    protected $guard = [
+        'id'
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
