@@ -15,8 +15,8 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('fk')->unsigned()->nullable();
+            $table->foreign('fk')->references('id')->on('users');
             $table->string('name');
             $table->string('jenis_kelamin');
             $table->string('status_aktif')->nullable()->default("aktif");

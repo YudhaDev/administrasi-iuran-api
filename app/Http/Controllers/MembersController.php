@@ -23,12 +23,12 @@ class MembersController extends Controller
             'jenis_kelamin' => 'required'
         ]);
 
-        return Members::create($request->all());
-        // return Members::create ([
-        //     'nomor_induk' => $request->nomor,
-        //     'name' => 'nugraha',
-        //     'jenis_kelamin' => 'pria'
-        // ]);
+        // return Members::create($request->all());
+        return Members::create ([
+            'fk' => $request['fk'],
+            'name' => $request['name'],
+            'jenis_kelamin' => $request['jenis_kelamin']
+        ]);
     }
 
     public function findMemberById($id){

@@ -41,8 +41,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function member(): HasOne
+    /**
+     * Get the user associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function members()
     {
-        return $this->hasOne(member::class, 'user_id', 'id');
+        return $this->hasOne(Members::class, 'fk', 'id');
     }
+    
 }
